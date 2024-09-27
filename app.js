@@ -3,9 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const { default: mongoose } = require('mongoose');
 const config = require('./config/config');
-const userRoutes  = require('./routes/user.route');
 
 // route init
+const userRoutes  = require('./routes/user.route');
 
 
 // App init
@@ -14,6 +14,8 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/user", userRoutes.userRoutes);
+
+// Db connect
 mongoose.connect(config.dburi)
     .then(() => {
         console.log("db connected");

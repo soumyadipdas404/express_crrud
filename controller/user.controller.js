@@ -20,7 +20,7 @@ const getUserById = async (req, res, next) => {
         }
         res.status(200).json({
             message: "User found",
-            data: userRes
+            data: {name:userRes.name,email:userRes.email,uId:userRes.uId}
         });
     }
     catch (error) {
