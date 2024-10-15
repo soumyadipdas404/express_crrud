@@ -6,6 +6,7 @@ const config = require('./config/config');
 
 // route init
 const userRoutes  = require('./routes/user.route');
+const indexRouter  = require('./routes/index.route');
 
 
 // App init
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/user", userRoutes.userRoutes);
+app.use("/",indexRouter.indexRouter);
 
 // Db connect
 mongoose.connect(config.dburi)

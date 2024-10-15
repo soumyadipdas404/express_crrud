@@ -5,7 +5,6 @@ const userModel = require('../schema/user.schema');
 const generateToken = (userId) => {
     return jwt.sign({ id: userId }, 'your_jwt_secret', { expiresIn: '1h' });
 };
-
 const getUserById = async (req, res, next) => {
     try {
         const id = req.params.id;
