@@ -1,8 +1,9 @@
 const express = require('express');
-const { createItem } = require('../controller/item.controller');
+const { createItem, getAllItems } = require('../controller/item.controller');
 const router = express.Router();
 
 router.post('/create', createItem);
+router.get('/', getAllItems);
 
 module.exports = {
     itemRoutes: router

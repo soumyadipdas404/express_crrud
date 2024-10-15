@@ -26,6 +26,24 @@ const createItem = async (req, res, next) => {
     }
 }
 
+const getAllItems = async (req, res, next) => {
+    try {
+        const itemRes = await itemModel.find({})
+        if (!itemRes) {
+            res.status(400).json({
+                message: "no items found"
+            })
+        }
+        res.status(200).json({
+            message: "items found",
+            data: itemRes
+        })
+    } catch (error) {
+        res.status(500).json({ error: error })
+    }
+}
+
 module.exports = {
     createItem,
+    getAllItems,
 }
