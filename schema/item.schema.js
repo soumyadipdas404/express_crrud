@@ -18,7 +18,6 @@ const itemSchema = new mongoose.Schema({
     },
     categoryId: {
         type: String,
-        required: true
     },
     description: {
         type: String,
