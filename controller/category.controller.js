@@ -22,10 +22,17 @@ const getCategory = async (req, res, next) => {
                 message: "no categories found"
             })
         }
-        res.status(200).json({
-            message: "categories found",
-            data: catRes
-        })
+        else if (catRes.length === 0) {
+            res.status(400).json({
+                message: "no categories found"
+            })
+        }
+        else {
+            res.status(200).json({
+                message: "categories found",
+                data: catRes
+            })
+        }
     } catch (error) {
         res.status(400).json({ error: error })
     }
@@ -34,16 +41,19 @@ const getCategory = async (req, res, next) => {
 const deleteCategoryById = async (req, res, next) => {
     try {
         const categoryId = req.params.id;
-        const deletedCategory = await categoryModel.findOneAndDelete(categoryId);
-        if (!deleteCategoryById) {
+        const deletedCategory = await categoryModel.findOneAndDelete({ categoryId: categoryId });
+
+        if (!deletedCategory) {
             res.status(404).json({
                 message: "category not found"
             })
         }
-        res.status(200).json({
-            message: "category deleted",
-            category: deletedCategory
-        })
+        else {
+            res.status(200).json({
+                message: "category deleted",
+                category: deletedCategory
+            })
+        }
     } catch (error) {
         res.status(400).json({ error: error });
     }
