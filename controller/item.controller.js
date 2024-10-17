@@ -13,15 +13,11 @@ const createItem = async (req, res, next) => {
         }
         const data = new itemModel(req.body);
         const savedItem = await data.save();
-
         res.status(200).json({
             message: "item created",
             data: savedItem
         })
     } catch (error) {
-        console.log('====================================');
-        console.log(error);
-        console.log('====================================');
         res.status(500).json(error)
     }
 }
@@ -29,21 +25,45 @@ const createItem = async (req, res, next) => {
 const getAllItems = async (req, res, next) => {
     try {
         const itemRes = await itemModel.find({})
-        if (!itemRes) {
+        if (!itemRes || itemRes.length===0) {
             res.status(400).json({
                 message: "no items found"
             })
         }
-        res.status(200).json({
-            message: "items found",
-            data: itemRes
-        })
+        else {
+            res.status(200).json({
+                message: "items found",
+                data: itemRes
+            })
+        }
     } catch (error) {
         res.status(500).json({ error: error })
+    }
+}
+
+const deleteItemById = async (req, res, next) => {
+    try {
+        const itemId = req.params.id;
+        const deletedItem = await itemModel.findOneAndDelete({ itemId: itemId });
+        if (!deletedItem) {
+            res.status(404).json({
+                message: "item not found"
+            })
+        } else {
+            res.status(200).json({
+                message: "item deleted",
+                item: deletedItem
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            error: error
+        })
     }
 }
 
 module.exports = {
     createItem,
     getAllItems,
+    deleteItemById
 }

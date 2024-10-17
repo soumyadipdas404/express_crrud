@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const { default: mongoose } = require('mongoose');
 const config = require('./config/config');
+const logRoute = require('./middleware/logger');
 
 // route init
 const userRoutes = require('./routes/user.route');
@@ -15,6 +16,7 @@ const categoryRoutes = require('./routes/category.route');
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(logRoute)
 
 app.use("/api/user", userRoutes.userRoutes);
 app.use("/", indexRouter.indexRouter);
