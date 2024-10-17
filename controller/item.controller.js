@@ -62,8 +62,31 @@ const deleteItemById = async (req, res, next) => {
     }
 }
 
+const getItemById = async(req,res,next)=>{
+    try {
+        const id = req.params.id;
+        const itemRes = await itemModel.findOne({ itemId: id });
+        if (!itemRes) {
+            res.status(404).json({
+                message:"item not found"
+            })
+        }
+        else{
+            res.status(200).json({
+                message:"item found",
+                data:itemRes
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            error: error
+        })
+    }
+}
+
 module.exports = {
     createItem,
     getAllItems,
-    deleteItemById
+    deleteItemById,
+    getItemById
 }
