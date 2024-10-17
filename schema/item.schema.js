@@ -29,7 +29,10 @@ const itemSchema = new mongoose.Schema({
     },
     variants: {
         type: Array,
+    },
+    sku: {
+        type: String,
     }
 })
 
-module.exports = mongoose.model('items',itemSchema);
+module.exports = mongoose.model('items', itemSchema);

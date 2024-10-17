@@ -40,10 +40,12 @@ const deleteCategoryById = async (req, res, next) => {
                 message: "category not found"
             })
         }
-        res.status(200).json({
-            message: "category deleted",
-            category: deletedCategory
-        })
+        else{
+            res.status(200).json({
+                message: "category deleted",
+                category: deletedCategory
+            })
+        }
     } catch (error) {
         res.status(400).json({ error: error });
     }
