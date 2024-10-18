@@ -59,8 +59,30 @@ const deleteCategoryById = async (req, res, next) => {
     }
 }
 
+const getCategoryById = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const categoryRes = await categoryModel.findOne({ categoryId: id })
+        if (!categoryRes) {
+            res.status(404).json({
+                message: "category not found"
+            })
+        } else {
+            res.status(200).json({
+                message: "category found",
+                data: categoryRes
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            error: error
+        })
+    }
+}
+
 module.exports = {
     createCategory,
     getCategory,
-    deleteCategoryById
+    deleteCategoryById,
+    getCategoryById
 }
