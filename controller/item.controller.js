@@ -25,7 +25,7 @@ const createItem = async (req, res, next) => {
 const getAllItems = async (req, res, next) => {
     try {
         const itemRes = await itemModel.find({})
-        if (!itemRes || itemRes.length===0) {
+        if (!itemRes || itemRes.length === 0) {
             res.status(400).json({
                 message: "no items found"
             })
@@ -62,19 +62,19 @@ const deleteItemById = async (req, res, next) => {
     }
 }
 
-const getItemById = async(req,res,next)=>{
+const getItemById = async (req, res, next) => {
     try {
         const id = req.params.id;
         const itemRes = await itemModel.findOne({ itemId: id });
         if (!itemRes) {
             res.status(404).json({
-                message:"item not found"
+                message: "item not found"
             })
         }
-        else{
+        else {
             res.status(200).json({
-                message:"item found",
-                data:itemRes
+                message: "item found",
+                data: itemRes
             })
         }
     } catch (error) {
@@ -84,9 +84,32 @@ const getItemById = async(req,res,next)=>{
     }
 }
 
+const editItem = async (req, res, next) => {
+    try {
+        const { id } = req.params; // Get the ID from the URL
+        const updateData = req.body; // Data to update from the request body
+
+        // Find the document by ID and update it
+        const updatedObject = await itemModel.findOneAndUpdate({ itemId: id }, updateData, { new: true, runValidators: true });
+
+        if (!updatedObject) {
+            return res.status(404).json({ message: 'item not found' });
+        }
+
+        // Return the updated object
+        res.status(200).json({
+            message: "item updated",
+            data: updatedObject
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
 module.exports = {
     createItem,
     getAllItems,
     deleteItemById,
-    getItemById
+    getItemById,
+    editItem
 }
