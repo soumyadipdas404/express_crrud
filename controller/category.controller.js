@@ -1,6 +1,6 @@
 'use strict'
 const categoryModel = require('../schema/category.schema')
-
+const itemModel = require('../schema/item.schema')
 const createCategory = async (req, res, next) => {
     try {
         const data = new categoryModel(req.body);
@@ -16,25 +16,33 @@ const createCategory = async (req, res, next) => {
 
 const getCategory = async (req, res, next) => {
     try {
+        // Fetch categories and products
         const catRes = await categoryModel.find({});
-        if (!catRes) {
-            res.status(400).json({
+        const itemRes = await itemModel.find({});
+
+        if (!catRes || catRes.length === 0) {
+            return res.status(400).json({
                 message: "no categories found"
-            })
+            });
         }
-        else if (catRes.length === 0) {
-            res.status(400).json({
-                message: "no categories found"
-            })
-        }
-        else {
-            res.status(200).json({
-                message: "categories found",
-                data: catRes
-            })
-        }
+
+        // Map categories to their corresponding products
+        const categoriesWithProducts = catRes.map(category => {
+            // Filter products that match the current category's categoryId
+            const products = itemRes.filter(item => item.categoryId === category.categoryId);
+
+            return {
+                ...category.toObject(), // Convert Mongoose document to plain object
+                products: products
+            };
+        });
+
+        res.status(200).json({
+            message: "categories found",
+            data: categoriesWithProducts
+        });
     } catch (error) {
-        res.status(400).json({ error: error })
+        res.status(400).json({ error: error.message });
     }
 }
 
