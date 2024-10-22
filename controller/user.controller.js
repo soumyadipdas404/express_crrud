@@ -33,10 +33,13 @@ const getUsers = async (req, res, next) => {
             const useRes = await userModel.find({})
             if (!useRes) {
                 return res.status(404).json({
-                    message: 'User not found'
+                    message: 'User(s) not found'
                 });
             }
-            res.json(useRes);
+            res.status(200).json({
+                message:"user(s) found",
+                data:useRes
+            });
         }
         else {
             res.status(401).json({ message: "Fear the god" })
@@ -59,7 +62,11 @@ const registerUser = async (req, res) => {
         const data = new userModel({ name, email, password });
         const savedUser = await data.save();
         const token = generateToken(savedUser.uId);
-        res.status(200).json({ token, data })
+        res.status(200).json({ 
+            message:"user registered successfuly",
+            token,
+            data 
+        })
     } catch (error) {
         console.log('====================================');
         console.log(error);
