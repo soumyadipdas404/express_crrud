@@ -13,7 +13,8 @@ const getUserById = async (req, res, next) => {
             return res.status(404).json(
                 {
                     message: "User not found",
-                    uId: id
+                    uId: id,
+                    data: null
                 }
             )
         }
@@ -33,7 +34,8 @@ const getUsers = async (req, res, next) => {
             const useRes = await userModel.find({})
             if (!useRes) {
                 return res.status(404).json({
-                    message: 'User(s) not found'
+                    message: 'User(s) not found',
+                    data:[]
                 });
             }
             res.status(200).json({

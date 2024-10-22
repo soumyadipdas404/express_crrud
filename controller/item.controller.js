@@ -27,7 +27,8 @@ const getAllItems = async (req, res, next) => {
         const itemRes = await itemModel.find({})
         if (!itemRes || itemRes.length === 0) {
             res.status(400).json({
-                message: "no items found"
+                message: "no items found",
+                data:[]
             })
         }
         else {
@@ -47,7 +48,8 @@ const deleteItemById = async (req, res, next) => {
         const deletedItem = await itemModel.findOneAndDelete({ itemId: itemId });
         if (!deletedItem) {
             res.status(404).json({
-                message: "item not found"
+                message: "item not found",
+                data:null
             })
         } else {
             res.status(200).json({
@@ -68,7 +70,8 @@ const getItemById = async (req, res, next) => {
         const itemRes = await itemModel.findOne({ itemId: id });
         if (!itemRes) {
             res.status(404).json({
-                message: "item not found"
+                message: "item not found",
+                data:null
             })
         }
         else {
@@ -93,7 +96,10 @@ const editItem = async (req, res, next) => {
         const updatedObject = await itemModel.findOneAndUpdate({ itemId: id }, updateData, { new: true, runValidators: true });
 
         if (!updatedObject) {
-            return res.status(404).json({ message: 'item not found' });
+            return res.status(404).json({
+                message: 'item not found',
+                data:null
+            });
         }
 
         // Return the updated object

@@ -22,7 +22,8 @@ const getCategory = async (req, res, next) => {
 
         if (!catRes || catRes.length === 0) {
             return res.status(400).json({
-                message: "no categories found"
+                message: "no categories found",
+                data: []
             });
         }
 
@@ -52,7 +53,8 @@ const getCategoryById = async (req, res, next) => {
         const itemRes = await categoryModel.findOne({ categoryId: id });
         if (!itemRes) {
             res.status(404).json({
-                message: "category not found"
+                message: "category not found",
+                data: null
             })
         }
         else {
@@ -75,7 +77,8 @@ const deleteCategoryById = async (req, res, next) => {
 
         if (!deletedCategory) {
             res.status(404).json({
-                message: "category not found"
+                message: "category not found",
+                data: null
             })
         }
         else {
@@ -98,7 +101,10 @@ const editCategory = async (req, res, next) => {
         const updatedObject = await categoryModel.findOneAndUpdate({ categoryId: id }, updateData, { new: true, runValidators: true });
 
         if (!updatedObject) {
-            return res.status(404).json({ message: 'Object not found' });
+            return res.status(404).json({
+                message: 'Object not found',
+                data: null
+            });
         }
 
         // Return the updated object
