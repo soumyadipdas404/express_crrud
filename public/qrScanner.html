@@ -1,0 +1,44 @@
+<!-- public/qrScanner.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Scanner</title>
+</head>
+
+<body>
+    <h1>Scan QR Code</h1>
+    <div id="qr-reader"></div>
+    <p id="qr-result">Scanned result: <span id="result"></span></p>
+
+    <script
+        src="https://unpkg.com/html5-qrcode">
+    </script>
+    <script>
+        const socket = new WebSocket('ws://localhost:8080/ws');
+
+        socket.onopen = () => {
+            console.log('Connected to WebSocket');
+        };
+
+        const resultElement = document.getElementById('result');
+
+        function onScanSuccess(decodedText, decodedResult) {
+            console.log(`Code matched = ${decodedText}`, decodedResult);
+            resultElement.textContent = decodedText;
+
+            // Send the scanned result to the server via WebSocket
+            socket.send(decodedText);
+        }
+
+        const qrCodeScanner = new Html5QrcodeScanner(
+            "qr-reader", { fps: 10, qrbox: 250 }
+        );
+
+        qrCodeScanner.render(onScanSuccess);
+    </script>
+</body>
+
+</html>

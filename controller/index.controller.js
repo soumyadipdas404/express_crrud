@@ -21,7 +21,7 @@ const getProjectInfo = async (req, res, next) => {
             author: projectRes[0].author
         });
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             message: error
         });
     }

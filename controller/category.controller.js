@@ -10,7 +10,7 @@ const createCategory = async (req, res, next) => {
             data: savedCategory
         })
     } catch (error) {
-        res.status(400).json({ error: error })
+        res.status(500).json({ error: error })
     }
 }
 
@@ -21,7 +21,7 @@ const getCategory = async (req, res, next) => {
         const itemRes = await itemModel.find({});
 
         if (!catRes || catRes.length === 0) {
-            return res.status(400).json({
+            return res.status(404).json({
                 message: "no categories found",
                 data: []
             });
@@ -43,7 +43,7 @@ const getCategory = async (req, res, next) => {
             data: categoriesWithProducts
         });
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 }
 
@@ -54,7 +54,7 @@ const getCategoryById = async (req, res, next) => {
         if (!itemRes) {
             res.status(404).json({
                 message: "category not found",
-                data: null
+                data: []
             })
         }
         else {
@@ -78,7 +78,7 @@ const deleteCategoryById = async (req, res, next) => {
         if (!deletedCategory) {
             res.status(404).json({
                 message: "category not found",
-                data: null
+                data: []
             })
         }
         else {
@@ -88,7 +88,7 @@ const deleteCategoryById = async (req, res, next) => {
             })
         }
     } catch (error) {
-        res.status(400).json({ error: error });
+        res.status(500).json({ error: error });
     }
 }
 

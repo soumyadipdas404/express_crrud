@@ -6,7 +6,7 @@ const createItem = async (req, res, next) => {
     try {
         let item = await itemModel.findOne({ itemId: itemId });
         if (item) {
-            res.status(400).json({
+            res.status(404).json({
                 message: "item already exist",
                 data: item
             });
@@ -26,7 +26,7 @@ const getAllItems = async (req, res, next) => {
     try {
         const itemRes = await itemModel.find({})
         if (!itemRes || itemRes.length === 0) {
-            res.status(400).json({
+            res.status(404).json({
                 message: "no items found",
                 data:[]
             })
