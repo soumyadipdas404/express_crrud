@@ -16,7 +16,7 @@ const categoryRoutes = require('./routes/category.route');
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(logRoute); //test ggggg
+app.use(logRoute); //test hiiii
 
 app.use("/api/user", userRoutes.userRoutes);
 app.use("/", indexRouter.indexRouter);
