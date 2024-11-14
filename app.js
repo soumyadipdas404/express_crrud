@@ -22,7 +22,7 @@ app.use("/", indexRouter.indexRouter);
 app.use("/api/item", itemRoutes.itemRoutes);
 app.use("/api/category", categoryRoutes.categoryRoutes);
 app.post('/webhook', (req, res) => {
-    console.log('Received webhook:', req.body); // Log the received data
+    console.log('Received webhook:', req.body); // Log the received 
     res.status(200).send('Webhook received successfully');
 });
 
