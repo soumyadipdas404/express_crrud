@@ -21,12 +21,8 @@ app.use("/api/user", userRoutes.userRoutes);
 app.use("/", indexRouter.indexRouter);
 app.use("/api/item", itemRoutes.itemRoutes);
 app.use("/api/category", categoryRoutes.categoryRoutes);
-app.post('https://creative-equipped-lemur.ngrok-free.app', (req, res) => {
-    console.log('Received webhook:', req.body); // Log the received webhook data
-
-    // For example, check the event type or process the data accordingly
-
-    // Send an HTTP response to acknowledge receipt
+app.post('/webhook', (req, res) => {
+    console.log('Received webhook:', req.body); // Log the received data
     res.status(200).send('Webhook received successfully');
 });
 
