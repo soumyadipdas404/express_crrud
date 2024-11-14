@@ -1,6 +1,7 @@
 'use strict'
 const cors = require('cors');
 const express = require('express');
+const { exec } = require('child_process');
 const config = require('./config/config');
 const { default: mongoose } = require('mongoose');
 const logRoute = require('./middleware/logger');
@@ -21,9 +22,28 @@ app.use("/api/user", userRoutes.userRoutes);
 app.use("/", indexRouter.indexRouter);
 app.use("/api/item", itemRoutes.itemRoutes);
 app.use("/api/category", categoryRoutes.categoryRoutes);
+// Webhook endpoint
 app.post('/webhook', (req, res) => {
-    console.log('Received webhook:', req.body); // Log the received data
-    res.status(200).send('Webhook received successfully');
+    const payload = req.body;
+
+    // Only trigger deployment on master branch
+    if (payload.ref === 'refs/heads/master') {
+        console.log('Push to master detected, triggering deployment...');
+
+        // Execute the deploy.sh script with PM2
+        exec('pm2 start ecosystem.config.js', (err, stdout, stderr) => {
+            if (err) {
+                console.error(`Error: ${stderr}`);
+                return res.status(500).send('Deployment failed');
+            }
+
+            console.log(stdout);
+            return res.status(200).send('Deployment triggered successfully');
+        });
+    } else {
+        console.log('Push to non-master branch detected, skipping deployment.');
+        return res.status(200).send('No deployment triggered');
+    }
 });
 
 // Db connect

@@ -1,3 +1,5 @@
 node_modules
 .env
 .vercel
+deploy.sh
+ecosystem.config.js
