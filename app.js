@@ -10,6 +10,7 @@ const userRoutes = require('./routes/user.route');
 const indexRouter = require('./routes/index.route');
 const itemRoutes = require('./routes/item.route');
 const categoryRoutes = require('./routes/category.route');
+const postCommitRoutes = require('./routes/postCommit.route');
 
 // App init
 const app = express();
@@ -21,6 +22,7 @@ app.use("/api/user", userRoutes.userRoutes);
 app.use("/", indexRouter.indexRouter);
 app.use("/api/item", itemRoutes.itemRoutes);
 app.use("/api/category", categoryRoutes.categoryRoutes);
+app.use("/api/postCommit", postCommitRoutes.postCommitRoutes);
 
 // Db connect
 mongoose.connect(config.dburi)
